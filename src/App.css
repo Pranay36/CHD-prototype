@@ -1,0 +1,462 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: "Quicksand", "Segoe UI", "Roboto", sans-serif;
+  background: #dfe3ec;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone {
+  position: relative;
+  width: 450px;
+  max-width: 100%;
+  height: 100vh;
+  background: #f5f7fa;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.phone-scroll {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ---- AI floating action button ---- */
+.ai-fab {
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #6d3078;
+  box-shadow: 0 4px 14px rgba(109, 48, 120, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  z-index: 20;
+}
+.ai-fab:active {
+  transform: scale(0.94);
+}
+
+/* ---- AI chat bottom sheet ---- */
+.ai-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(48, 48, 48, 0.35);
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.ai-sheet-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85%;
+  background: #f5f7fa;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 24px rgba(48, 48, 48, 0.18);
+  transform: translateY(100%);
+  transition: transform 0.25s ease;
+  z-index: 31;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ai-sheet.open {
+  transform: translateY(0);
+}
+
+.ai-sheet-grabber {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: #d9d3de;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+
+.ai-sheet-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(48, 48, 48, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.ai-sheet-body {
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+
+/* ---- header ---- */
+.chd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fae3d7;
+}
+.chd-header .title {
+  color: #6d3078;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.home-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #6d3078;
+  flex-shrink: 0;
+}
+.home-badge svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- lifetime earnings hero ---- */
+.lifetime-card {
+  margin: 16px 16px 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e4ecfb 0%, #e9e3f8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lifetime-card .hey {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b6580;
+}
+.lifetime-card .lbl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #303030;
+  margin-top: 4px;
+}
+.lbl-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: #e3d4f0;
+  flex-shrink: 0;
+}
+.lifetime-card .amt {
+  font-size: 26px;
+  font-weight: 700;
+  color: #303030;
+  margin-top: 2px;
+}
+
+/* ---- card tabs ---- */
+.card-tabs {
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+.card-tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #303030;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(48, 48, 48, 0.06);
+}
+.card-tab.active {
+  color: #6d3078;
+  background: #fefaff;
+  border-color: #6d3078;
+}
+
+/* ---- generic section card ---- */
+.section {
+  margin: 0 16px 12px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(48, 48, 48, 0.05);
+}
+.earn-section {
+  background: #fae3d7;
+}
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303030;
+}
+.view-all {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #f37435;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ---- toast ---- */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%) translateY(8px);
+  background: #303030;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(48, 48, 48, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 25;
+  white-space: nowrap;
+}
+.toast.open {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- per-card earnings ---- */
+.earn-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.bg-peach {
+  background: #fae3d7;
+}
+.bg-lav {
+  background: #edd7fa;
+}
+.bg-blue {
+  background: #d7e0fa;
+}
+.bg-pink {
+  background: #fadceb;
+}
+.earn-card .txt {
+  flex: 1;
+}
+.earn-card .earn-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303030;
+}
+.earn-card .earn-amt {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6d3078;
+  margin-top: 2px;
+}
+.deactivated-note {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(48, 48, 48, 0.6);
+  margin-top: 8px;
+}
+
+/* ---- milestone rows ---- */
+.milestone {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #f0f0f3;
+}
+.milestone:first-of-type {
+  border-top: none;
+}
+.milestone .txt {
+  flex: 1;
+}
+.m-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #303030;
+  display: flex;
+  justify-content: space-between;
+}
+.m-sub {
+  font-size: 12px;
+  font-weight: 500;
+  color: #7a7a7a;
+  margin-top: 2px;
+}
+.m-track {
+  height: 6px;
+  background: #efe6f3;
+  border-radius: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.m-fill {
+  height: 100%;
+  background: #6d3078;
+  border-radius: 4px;
+}
+.m-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+.m-tag.expiry {
+  color: #e5484d;
+}
+.m-tag.time {
+  color: #8a8a8a;
+}
+.m-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e5484d;
+}
+
+/* ---- empty state ---- */
+.empty {
+  text-align: center;
+  padding: 18px 0;
+}
+.empty .bubble {
+  font-size: 40px;
+}
+.empty .msg {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a7a7a;
+  margin-top: 6px;
+}
+
+/* ---- curated offers ---- */
+.offer-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+.offer {
+  flex: 1;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+}
+.offer .brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #303030;
+}
+.brand-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+}
+.offer .desc {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4a4a4a;
+  line-height: 17px;
+  margin-top: 8px;
+  min-height: 51px;
+}
+.offer .valid {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #7a7a7a;
+  margin-top: 8px;
+  border-top: 1px solid #f0f0f3;
+  padding-top: 8px;
+}
+.dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d5cdda;
+}
+.dots span.on {
+  width: 16px;
+  border-radius: 3px;
+  background: #6d3078;
+}
