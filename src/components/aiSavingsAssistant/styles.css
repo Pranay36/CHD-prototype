@@ -54,6 +54,22 @@
   border-radius: 10px;
 }
 
+.ai-new-chat {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6d3078;
+  background: rgba(109, 48, 120, 0.08);
+  border: none;
+  border-radius: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.ai-new-chat:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 /* ------------------------------------------------------------ savings hero */
 .ai-savings-block {
   margin-top: 14px;

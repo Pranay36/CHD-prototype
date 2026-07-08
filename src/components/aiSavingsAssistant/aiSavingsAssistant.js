@@ -15,6 +15,8 @@ import { formatRewardValue } from "../../utils/functions";
  * @param {string} [props.accountId] Account to ground answers in.
  * @param {object} [props.extraContext] Extra grounding data merged into the
  *   repository context (e.g. host-page-only data the repository can't see).
+ * @param {object} [props.initialQuestion] Question to auto-ask on open when
+ *   launched from a home-screen prompt chip. Shape: `{ token, text, id }`.
  */
 const RobotIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -51,7 +53,7 @@ const MessageText = ({ text }) => (
   </>
 );
 
-const AiSavingsAssistant = ({ accountId, extraContext }) => {
+const AiSavingsAssistant = ({ accountId, extraContext, initialQuestion }) => {
   const {
     messages,
     input,
@@ -62,7 +64,8 @@ const AiSavingsAssistant = ({ accountId, extraContext }) => {
     setInput,
     sendCurrentInput,
     askSuggested,
-  } = useSavingsAssistant(accountId, extraContext);
+    clearHistory,
+  } = useSavingsAssistant(accountId, extraContext, initialQuestion);
 
   const scrollRef = useRef(null);
 
@@ -90,6 +93,16 @@ const AiSavingsAssistant = ({ accountId, extraContext }) => {
         </div>
         <div className="ai-title">{AI_WIDGET_COPY.title}</div>
         <span className="ai-badge">AI</span>
+        {messages.length > 1 && (
+          <button
+            type="button"
+            className="ai-new-chat"
+            onClick={clearHistory}
+            disabled={isThinking}
+          >
+            New chat
+          </button>
+        )}
       </div>
 
       {/* Total savings hero */}
